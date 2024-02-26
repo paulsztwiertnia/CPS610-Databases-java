@@ -1,0 +1,37 @@
+Set ORACLE_SID
+
+Created init.ora file
+
+Made instance
+	oradim -NEW -SID Central -STARTMODE MANUAL -PFILE init.ora
+
+Connected to instance + Created Server Parameter File
+	sqlplus /nolog
+		Connect SYS AS SYSDBA
+		password
+			CREATE SPFILE FROM PFILE; --Note: must have correct perms. Services -> Properties -> Log on, admin privs
+			(PFILE='PATH')
+
+Started Instance
+	STARTUP NOMOUNT
+
+Create folders
+
+Create Databases (See DB_CREATE.SQL)
+
+CREATE TABLESPACE centb
+    DATAFILE 'centb_data.dbf'
+    SIZE 1m AUTOEXTEND ON
+;
+
+CREATE USER C##CEN
+IDENTIFIED BY abcd1234
+DEFAULT TABLESPACE centb
+QUOTA UNLIMITED ON centb
+;
+
+GRANT CREATE SESSION TO C##CEN;
+GRANT CREATE VIEW, CREATE PROCEDURE, CREATE SEQUENCE, CREATE TRIGGER, CREATE TABLE to C##CEN;
+GRANT ALTER ANY TABLE, ALTER ANY PROCEDURE, ALTER ANY TRIGGER, DROP ANY PROCEDURE, DROP ANY TRIGGER, DROP ANY VIEW to C##CEN;
+
+(Above repeated for each db)

@@ -1,0 +1,23 @@
+Summary explanation for Part 1:
+
+The problem in part 1 requires the implementation of a Two-Phase-Locking algorithm using and object oriented language such as Java on a relational database. 
+The input to the program is in the format of: "W(1,2);R(2);C R(5);W(3,3);C “.The algorithm includes a lock table to implement 2PL locking and a log table to record all uncommitted transaction and tasks performed by transactions. The algorithm must implement locking protocols using shared and exclusive locks for read and write tasks. The algorithm should let transactions be put in a wait state if they can’t acquire a lock and continue with the next transaction according to the priorities which have been assigned to the transactions using a round robin method. When the algorithm releases all locks owned by transactions it commits the changes. 
+
+Summary explanation for Part 2: 
+
+For the log table, the entries are added when transactions are completed. For write tasks, the log table stores the timestamp, transaction ID, record ID, old values, and new values stored in the record, as well as the timestamp of the previous log entry for the transaction. For read tasks, the log table stores the timestamp, transaction ID, record ID, the value read from the record, and the timestamp of the previous log entry for the transaction. For commit tasks, the log table stores the timestamp, the transaction ID, and the timestamp of the previous log entry.
+
+Suggested solution regarding the generation of the system log table for concurrent transactions on a database:
+To generate the log table, first create a class called LogTable. This class will have methods to add entries to the log table. Then, create a temporary buffer to hold entries until they are ready to be added to the log table. Use a dictionary to store the log table, using the transaction ID as the key, and a list of log entries as the value. To add a log entry, check if the task should wait for a lock. If yes, we do not add the entry to the log table, until the task is executed. If the task does not need to wait for a lock, we will add the entry to the temporary buffer. If the task is successful, we will add the entry from the temporary buffer to the log table.
+
+
+
+Solution ( from code ) :
+
+The code in Lab4.java is a program that takes input from input.txt which contains a username and password to access the oracle DBMS. The program receives transactions as input from the user and then executes them. Each transaction has one or more actions and each action can be a R/W operation on a record in the database. The program then creates a connection to the DB and uses SQL statements to manipulate the records using JBDC. Then, an Arraylist is used to store the transaction and actions, later processing them one by one. The program implements a basic locking algorithm to prevent concurrent access to records by multiple transaction. The transactions are executed in round robin.
+
+Test cases:
+
+W(1,5);C R(9);R(7);C R(1);C 
+
+W(1,5);R(2);W(2,3);R(1);C R(1);W(1,2);C 

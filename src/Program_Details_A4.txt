@@ -1,0 +1,18 @@
+SELECT * FROM A4_Table;
+SELECT * FROM Lock_Table;
+
+The connection details are near the top, switch it to whatever you need. The user/pass need to be in an input.txt file in the same directory.
+
+The input to the program is in the format of:
+"W(1,2);R(2);C R(5);W(3,3);C "
+Where each action is split by a semi-colon, and transactions are split by spaces. Make sure to have a "C"/commit at the end of each transaction or you'll get locks left in the lock_table that you'll have to manually delete.
+Use all capitals. I didn't account for user error.
+It'll be stored in an arraylist of the following format:
+transactions = [ [[W,1,2],[R,2],[C]], [[R,5],[W,3,3],[C]] ]
+i.e. list of action details inside of a list of the actions inside of a list of transactions
+
+For the most part, we check the lock_table for existing locks, then make a new lock or modify them as needed.
+Waiting is done if a lock that can't be touched is there.
+As each action is done, the action letter gets changed to "D" so that the switch in the loop doesn't do anything (goes to next action instead).
+
+Program runs round-robin style.
